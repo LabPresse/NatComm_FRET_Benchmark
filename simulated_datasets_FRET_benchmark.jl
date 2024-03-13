@@ -15,20 +15,7 @@ crosstalk_ad = 0.0
 crosstalk_aa = 1.0
 
 dt = 0.05 # in seconds
-#const quantum_yield_d::Float64 = 0.47
-#const quantum_yield_a::Float64 = 0.47
-#const bin_width::Float64 = 0.05 # in seconds
-#const ccd_EM_gain_donor::Float64 = 40.0
-#const ccd_EM_gain_acceptor::Float64 = 40.0
-#const ccd_sensitivity_donor::Float64 = 4.97 # electrons per ADU
-#const ccd_sensitivity_acceptor::Float64 = 4.97 # electrons per ADU
-#const ccd_read_out_noise_donor::Float64 = 188
-#const ccd_read_out_noise_acceptor::Float64 = 142
-#const n_pixels_integrated_over::Int64 = 25
-#const ccd_offset_donor::Float64 = n_pixels_integrated_over * 253.0
-#const ccd_offset_acceptor::Float64 = n_pixels_integrated_over * 224.0
-#const detection_eff_acceptor::Float64 = 1.0
-#const da_crosstalk::Float64 = crosstalk_da
+
 
 const quantum_yield_d::Float64 = 0.47
 const quantum_yield_a::Float64 = 0.47
