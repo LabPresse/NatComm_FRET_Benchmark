@@ -16,7 +16,6 @@ crosstalk_aa = 1.0
 
 dt = 0.05 # in seconds
 
-
 const quantum_yield_d::Float64 = 0.47
 const quantum_yield_a::Float64 = 0.47
 const bin_width::Float64 = 0.05 # in seconds
@@ -36,16 +35,9 @@ const da_crosstalk::Float64 = crosstalk_da
 nbins = 2000
 # Synthetic Data
 function synthetic_data(draws)
-
-    id2 = Matrix(1.0 * I, 2, 2)
-    id3 = Matrix(1.0 * I, 3, 3)
-    id4 = Matrix(1.0 * I, 4, 4)
-    idFRET = Matrix(1.0 * I, n_system_states * 3, n_system_states * 3)
-
     matrix_confo = [0.0 1.5;
         0.5 0.0] # In s^-1
 
-    #	rate_matrix = kron(rate_matrix_bg, idFRET) + kron(id4, rate_matrix_FRET)
     rate_matrix = copy(matrix_confo)
 
     # Sample the initial state
@@ -56,10 +48,8 @@ function synthetic_data(draws)
     # Initialize arrays and constants
     time_state = [0.0]
     state = [initial_state]
-    time_photon = []
-    color_photon = []
 
-    #Sample the next state in two steps
+    # Sample the next state in two steps
     hold_time = 0.0
     next_event = 0.0
     current_state = initial_state
@@ -126,7 +116,6 @@ for i in 41:160
             ccd_read_out_noise_acceptor))))
 
     for bin in 2:nbins
-
         min = transition_time ./ ((bin - 1) * dt)
         min_first = findall(x -> x < 1.0, min)
         max = transition_time ./ (bin * dt)
@@ -162,7 +151,6 @@ for i in 41:160
                               1.0 / ccd_sensitivity_acceptor +
                               ccd_offset_acceptor,
                 ccd_read_out_noise_acceptor))))
-
     end
 
     file_name = string(working_directory, "trace_true_ex_rate_2000_", i, ".h5")
@@ -206,7 +194,6 @@ plot_acceptor = plot!(dt .* collect(0:nbins-1), acceptor_channel,
 plot!(binned_trajectory, line)
 histogram(acceptor_channel ./ (donor_channel + acceptor_channel), bin=60)
 
-
 file_name = string(working_directory, "test_trace_true.h5")
 fid = h5open(file_name, "w")
 write_dataset(fid, "donor_channel", convert.(Int64, donor_channel))
@@ -231,14 +218,11 @@ donor_channel = zeros(Integer, nbins)
 acceptor_channel = zeros(Integer, nbins)
 for bin in 1:nbins
     if binned_trajectory[bin] == 1
-
         donor_channel[bin] = Integer(
             round(rand(Normal(mean_d_1, std_d_1))))
         acceptor_channel[bin] = Integer(
             round(rand(Normal(mean_a_1, std_a_1))))
-
     elseif binned_trajectory[bin] == 2
-
         donor_channel[bin] = Integer(
             round(rand(Normal(mean_d_2, std_d_2))))
         acceptor_channel[bin] = Integer(
@@ -304,7 +288,6 @@ write_dataset(fid, "donor_channel_bg", ccd_offset_donor)
 write_dataset(fid, "acceptor_channel_bg", ccd_offset_acceptor)
 close(fid)
 
-
 file_name = string(working_directory, "gt_test_trace_gaussian.h5")
 fid = h5open(file_name, "w")
 write_dataset(fid, "binned_trajectory", convert.(Int64, binned_trajectory))
@@ -328,14 +311,11 @@ acceptor_channel = zeros(Integer, nbins)
 da_crosstalk = 0.0
 for bin in 1:nbins
     if binned_trajectory[bin] == 1
-
         donor_channel[bin] = Integer(
             rand(Poisson(mean_d_1 - da_crosstalk * mean_d_1)))
         acceptor_channel[bin] = Integer(
             rand(Poisson(mean_a_1 + da_crosstalk * mean_d_1)))
-
     elseif binned_trajectory[bin] == 2
-
         donor_channel[bin] = Integer(
             rand(Poisson(mean_d_2 - da_crosstalk * mean_d_2)))
         acceptor_channel[bin] = Integer(
