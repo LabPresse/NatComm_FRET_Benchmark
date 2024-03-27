@@ -5,10 +5,10 @@ println(" Importing FRET Traces...")
 flush(stdout);
 
 const donor_channel_data::Vector{Float64},
-        acceptor_channel_data::Vector{Float64},
-        donor_channel_bg::Float64,
-        acceptor_channel_bg::Float64,
-        nbins::Int64 = get_data()
+acceptor_channel_data::Vector{Float64},
+donor_channel_bg::Float64,
+acceptor_channel_bg::Float64,
+nbins::Int64 = get_data()
 
 println(" Done.")
 flush(stdout);
@@ -18,7 +18,6 @@ println(" *********************************************************")
 println(" nbins = ", nbins)
 println(" *********************************************************")
 flush(stdout);
-
 
 const quantum_yield_d::Float64 = 0.47
 const quantum_yield_a::Float64 = 0.47
